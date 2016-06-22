@@ -4,9 +4,24 @@ Forked from [nodejs-sandboxed-fs](https://github.com/augustl/nodejs-sandboxed-fs
 
 Identical API to the core `fs` module, but allows for whitelisting and blacklisting of certain paths. Can be used to provide sandboxed file system for VM sandboxes.
 
-## TODO
+## Disabled methods
 
-* Implement all the APIs.
+All `fs` methods are included except the sync and async variants of:
+
+ * access
+ * createReadStream
+ * createWriteStream
+ * fdatasync
+ * ftruncate
+ * ftruncateSync
+ * lchmod
+ * lchown
+ * mkdtemp
+ * watch
+ * watchFile
+ * unwatchFile
+
+This may change in the future.
 
 ## Installing
 
