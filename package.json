@@ -1,11 +1,20 @@
 {
-    "name": "sandboxed-fs",
-    "version": "0.1",
-    "description": "Like the core 'fs', but whith path pased whitelisting and blacklisting",
-    "author": {
-        "name": "August Lilleaas",
-        "email": "august@augustl.com",
-        "url": "http://augustl.com"
-    },
-    "main": "./lib/sandboxed-fs"
+  "name": "fs-sandbox",
+  "version": "0.1.0",
+  "description": "Like the core 'fs', but whith path pased whitelisting and blacklisting",
+  "author": "Paul Frazee <pfrazee@gmail.com>",
+  "contributors": [
+    {
+      "name": "August Lilleaas",
+      "email": "august@augustl.com",
+      "url": "http://augustl.com"
+    }
+  ],
+  "main": "./lib/fs-sandbox",
+  "devDependencies": {
+    "tape": "^4.6.0"
+  },
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  }
 }
