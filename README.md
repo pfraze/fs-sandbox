@@ -4,25 +4,6 @@ Forked from [nodejs-sandboxed-fs](https://github.com/augustl/nodejs-sandboxed-fs
 
 Identical API to the core `fs` module, but allows for whitelisting and blacklisting of certain paths. Can be used to provide sandboxed file system for VM sandboxes.
 
-## Disabled methods
-
-All `fs` methods are included except the sync and async variants of:
-
- * access
- * createReadStream
- * createWriteStream
- * fdatasync
- * ftruncate
- * ftruncateSync
- * lchmod
- * lchown
- * mkdtemp
- * watch
- * watchFile
- * unwatchFile
-
-This may change in the future.
-
 ## Installing
 
 This package is proof of concept and is not published to npmjs.org.
@@ -60,3 +41,23 @@ You probably want to use this module in a VM, like so:
     vm.runInNewContext(stringOfCode, ctx);
 
 The `stringOfCode` will be evaluated as a normal Node.js script, but will only have the globals available that you specify in `ctx`. Here we define our own `require`, where `fs` will return our own `fss` module, or otherwise piggyback to the normal require.
+
+
+## Disabled methods
+
+All `fs` methods are included except the sync and async variants of:
+
+ * access
+ * createReadStream
+ * createWriteStream
+ * fdatasync
+ * ftruncate
+ * ftruncateSync
+ * lchmod
+ * lchown
+ * mkdtemp
+ * watch
+ * watchFile
+ * unwatchFile
+
+This may change in the future.
