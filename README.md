@@ -1,63 +1,76 @@
 # fs-sandbox
 
-Forked from [nodejs-sandboxed-fs](https://github.com/augustl/nodejs-sandboxed-fs), by August Lilleaas.
-
-Identical API to the core `fs` module, but allows for whitelisting and blacklisting of certain paths. Can be used to provide sandboxed file system for VM sandboxes.
-
-## Installing
-
-This package is proof of concept and is not published to npmjs.org.
+A wrapper around the node `fs` module, used in the [Beaker Browser](https://github.com/pfraze/beaker) to give sandboxed access to files and folders.
 
 ## Usage
 
-Will only be able to access files and folders beyond the listed paths.
+```js
+var fs = require('fs')
+var fss = require('fs-sandbox')
 
-    var fss = require("fs-sandbox").createWhitelisted([
-        "/home/deploy/foo",
-        "/tmp"
-    ]);
+// create a folder sandboxed to `path`
+var folder = fss.createFolderSandbox(path)
 
-Will not be able to access any files or folders in the specified paths.
+// api:
+// (all *Sync variants are supported)
+folder.appendFile(path, data[, options], callback)
+folder.exists(path, callback)
+folder.mkdir(path, callback)
+folder.open(path[, flags], callback)
+folder.readdir(path[, options], callback)
+folder.readFile(path[, options], callback)
+folder.rename(oldPath, newPath, callback)
+folder.rmdir(path, callback)
+folder.stat(path, callback)
+folder.unlink(path, callback)
+folder.writeFile(file, data[, options], callback)
 
-    var fss = require("fs-sandbox").createBlacklisted([
-        "/var",
-        "/home"
-    ]);
+// open a file sandboxed to a path
+var file = fss.createFileSandbox(path + '/myfile.txt', fs.openSync(path + '/myfile.txt', 'w+'))
+// or...
+var file = folder.openSync('./myfile.txt', 'w+')
 
-The `fss` can then be used as a normal fs module, with 100% core fs module API compatibility.
-
-You probably want to use this module in a VM, like so:
-
-    var fss = require("fs-sandbox").createWhitelisted([...]);
-    var vm = require("vm");
-    var ctx = {};
-    ctx.require = function (module) {
-        if (module === "fs") {
-            return fss;
-        }
-        
-        return require(module);
-    }
-    vm.runInNewContext(stringOfCode, ctx);
-
-The `stringOfCode` will be evaluated as a normal Node.js script, but will only have the globals available that you specify in `ctx`. Here we define our own `require`, where `fs` will return our own `fss` module, or otherwise piggyback to the normal require.
-
+// api:
+// (all *Sync variants are supported)
+file.appendFile(data[, options], callback)
+file.close(cb)
+file.read(buffer, offset, length, position, callback)
+file.readFile([options,] callback)
+file.stat(cb)
+file.sync(cb)
+file.truncate(len, cb)
+file.unlink(cb)
+file.write(buffer, offset, length[, position], callback)
+file.write(data[, position[, encoding]], callback)
+file.writeFile(data[, options], callback)
+```
 
 ## Disabled methods
 
-All `fs` methods are included except the sync and async variants of:
+Most `fs` methods are included.
+These are not:
 
  * access
+ * chmod
+ * chown
  * createReadStream
  * createWriteStream
+ * fchmod
+ * fchown
  * fdatasync
+ * futimes
  * ftruncate
  * ftruncateSync
  * lchmod
  * lchown
+ * link
  * mkdtemp
+ * readlink
+ * realpath
+ * symlink
+ * unwatchFile
+ * utimes
  * watch
  * watchFile
- * unwatchFile
 
-This may change in the future.
+ Also, the methods are not allowed to set the permission mode bits.
