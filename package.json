@@ -1,6 +1,6 @@
 {
   "name": "fs-sandbox",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Like the core 'fs', but whith path pased whitelisting and blacklisting",
   "author": "Paul Frazee <pfrazee@gmail.com>",
   "contributors": [
